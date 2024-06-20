@@ -7,7 +7,7 @@ describe('Environments Plugin test suite', () => {
   const org = 'bkeepers'
   const repo = 'test'
   const AllEnvironmentNamesBeingTested = ['wait-timer_environment', 'wait-timer_2_environment', 'reviewers_environment', 'prevent-self-review_environment', 'deployment-branch-policy_environment', 'deployment-branch-policy-custom_environment', 'variables_environment', 'deployment-protection-rules_environment']
-  log = { debug: jest.fn(), error: console.error }
+  const log = { debug: jest.fn(), error: console.error }
   const errors = []
 
   function fillEnvironment(attrs) {
