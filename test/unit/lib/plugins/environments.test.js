@@ -7,9 +7,8 @@ describe('Environments Plugin test suite', () => {
   const org = 'bkeepers'
   const repo = 'test'
   const AllEnvironmentNamesBeingTested = ['wait-timer_environment', 'wait-timer_2_environment', 'reviewers_environment', 'prevent-self-review_environment', 'deployment-branch-policy_environment', 'deployment-branch-policy-custom_environment', 'variables_environment', 'deployment-protection-rules_environment']
-  const log = jest.fn()
-  log.debug = jest.fn()
-  log.error = jest.fn()
+  log = { debug: jest.fn(), error: console.error }
+  const errors = []
 
   function fillEnvironment(attrs) {
     if (!attrs.wait_timer) attrs.wait_timer = 0;
@@ -103,9 +102,7 @@ describe('Environments Plugin test suite', () => {
           name: environment_name,
           wait_timer: 1
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with a wait timer of 0
       when(github.request)
@@ -150,9 +147,7 @@ describe('Environments Plugin test suite', () => {
             }
           ]
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with no reviewers
       when(github.request)
@@ -210,9 +205,7 @@ describe('Environments Plugin test suite', () => {
           name: environment_name,
           prevent_self_review: true
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with prevent self review false
       when(github.request)
@@ -255,9 +248,7 @@ describe('Environments Plugin test suite', () => {
             custom_branch_policies: false
           }
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with prevent self review false
       when(github.request)
@@ -306,9 +297,7 @@ describe('Environments Plugin test suite', () => {
             ]
           }
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with no branch policies
       when(github.request)
@@ -368,9 +357,7 @@ describe('Environments Plugin test suite', () => {
             }
           ]
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with no reviewers
       when(github.request)
@@ -415,9 +402,7 @@ describe('Environments Plugin test suite', () => {
             }
           ]
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with no deployment protection rules
       when(github.request)
@@ -457,9 +442,7 @@ describe('Environments Plugin test suite', () => {
           name: environment_name,
           wait_timer: 2
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       //model an existing environment with no reviewers
       when(github.request)
@@ -555,9 +538,7 @@ describe('Environments Plugin test suite', () => {
             }
           ]
         }
-      ], {
-        debug: function () { }
-      });
+      ], log, errors);
 
       // model 7 existing environments and their settings
       // note: wait-timer, required_reviewers, and branch_policy are modeled incorrectly here as they are not wrapped by protection_rules[]
